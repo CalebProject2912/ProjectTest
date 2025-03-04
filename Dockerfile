@@ -13,7 +13,12 @@ RUN apt-get update && apt-get install -y \
     git \
     python3 \
     tzdata \
+    xapian-tools \  # Para evitar el mensaje de Xapian
     && rm -rf /var/lib/apt/lists/*
+
+# Construir el índice de Xapian para evitar el mensaje
+RUN mkdir -p /var/cache/apt/xapian && \
+    update-apt-xapian-index
 
 # Clonar noVNC
 RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC

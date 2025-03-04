@@ -30,7 +30,7 @@ RUN echo '#!/bin/bash' > ~/.vnc/xstartup && \
     chmod +x ~/.vnc/xstartup
 
 # Exponer puertos
-EXPOSE 6080 5901
+#EXPOSE 6080 5901
 
 # Copiar el script de inicio
 COPY start.sh /usr/local/bin/start.sh

@@ -6,15 +6,16 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
 ENV USER=root
 
-# Agregar repositorio de Debian para obtener Firefox ESR
-RUN echo "deb http://deb.debian.org/debian bullseye main" | tee -a /etc/apt/sources.list.d/debian.list
+# Instalar herramientas esenciales antes de agregar claves
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gnupg2 ca-certificates curl wget && \
+    rm -rf /var/lib/apt/lists/*
 
-# Instalar gnupg temporalmente para agregar claves
-RUN apt-get update && apt-get install -y --no-install-recommends gnupg && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9 6ED0E7B82643E131 605C66F00D6C9793 || \
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0E98404D386FA1D9 6ED0E7B82643E131 605C66F00D6C9793 || \
-    apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 0E98404D386FA1D9 6ED0E7B82643E131 605C66F00D6C9793 && \
-    apt-get remove -y gnupg && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
+# Agregar clave GPG de Debian de forma segura
+RUN wget -qO - https://ftp-master.debian.org/keys/archive-key-11.asc | gpg --dearmour -o /usr/share/keyrings/debian-archive-keyring.gpg
+
+# Agregar repositorio de Debian Bullseye con clave firmada
+RUN echo "deb [signed-by=/usr/share/keyrings/debian-archive-keyring.gpg] http://deb.debian.org/debian bullseye main" | tee /etc/apt/sources.list.d/debian.list
 
 # Instalar dependencias (LXDE en lugar de Lubuntu)
 RUN apt-get update && apt-get install -y \

@@ -9,6 +9,11 @@ ENV USER=root
 # Agregar repositorio de Debian para obtener Firefox ESR
 RUN echo "deb http://deb.debian.org/debian bullseye main" | tee -a /etc/apt/sources.list.d/debian.list
 
+# Agregar claves GPG faltantes
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9 6ED0E7B82643E131 605C66F00D6C9793 || \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0E98404D386FA1D9 6ED0E7B82643E131 605C66F00D6C9793 || \
+    apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 0E98404D386FA1D9 6ED0E7B82643E131 605C66F00D6C9793
+
 # Instalar dependencias (LXDE en lugar de Lubuntu)
 RUN apt-get update && apt-get install -y \
     lxde-core \

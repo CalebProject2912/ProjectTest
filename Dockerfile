@@ -14,7 +14,16 @@ RUN apt-get update && apt-get install -y \
     git \
     python3 \
     tzdata \
-    xapian-tools > /dev/null 2>&1 && \
+    xapian-tools \
+    language-pack-es language-pack-es-base \
+    apt-transport-https curl > /dev/null 2>&1 && \
+    rm -rf /var/lib/apt/lists/*
+
+# Agregar el repositorio de Brave
+RUN curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add - && \
+    echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" | tee /etc/apt/sources.list.d/brave-browser-release.list && \
+    apt-get update && \
+    apt-get install -y brave-browser > /dev/null 2>&1 && \
     rm -rf /var/lib/apt/lists/*
 
 # Clonar noVNC

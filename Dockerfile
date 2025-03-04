@@ -16,14 +16,9 @@ RUN apt-get update && apt-get install -y \
     tzdata \
     xapian-tools \
     language-pack-es language-pack-es-base \
-    apt-transport-https curl > /dev/null 2>&1 && \
-    rm -rf /var/lib/apt/lists/*
-
-# Agregar el repositorio de Brave
-RUN curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add - && \
-    echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" | tee /etc/apt/sources.list.d/brave-browser-release.list && \
-    apt-get update && \
-    apt-get install -y brave-browser > /dev/null 2>&1 && \
+    apt-transport-https curl \
+    chromium-browser \
+    autocutsel > /dev/null 2>&1 && \
     rm -rf /var/lib/apt/lists/*
 
 # Clonar noVNC
@@ -36,6 +31,7 @@ RUN mkdir ~/.vnc && \
 
 # Configurar LXDE como entorno de escritorio para VNC
 RUN echo '#!/bin/bash' > ~/.vnc/xstartup && \
+    echo 'autocutsel -fork &' >> ~/.vnc/xstartup && \
     echo 'startlxde &' >> ~/.vnc/xstartup && \
     chmod +x ~/.vnc/xstartup
 

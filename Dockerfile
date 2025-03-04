@@ -4,6 +4,7 @@ FROM ubuntu:20.04
 # Configurar la zona horaria de manera no interactiva
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
+ENV USER=root
 
 # Instalar dependencias (LXDE en lugar de Lubuntu)
 RUN apt-get update && apt-get install -y \

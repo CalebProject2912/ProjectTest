@@ -6,6 +6,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
 ENV USER=root
 
+# Agregar repositorio de Debian para obtener Firefox ESR
+RUN echo "deb http://deb.debian.org/debian bullseye main" | tee -a /etc/apt/sources.list.d/debian.list
+
 # Instalar dependencias (LXDE en lugar de Lubuntu)
 RUN apt-get update && apt-get install -y \
     lxde-core \
@@ -17,7 +20,8 @@ RUN apt-get update && apt-get install -y \
     xapian-tools \
     language-pack-es language-pack-es-base \
     apt-transport-https curl \
-    firefox \
+    firefox-esr \
+    unzip \
     autocutsel > /dev/null 2>&1 && \
     rm -rf /var/lib/apt/lists/*
 

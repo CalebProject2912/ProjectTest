@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
     git \
     python3 \
     tzdata \
-    xapian-tools \  # Para evitar el mensaje de Xapian
+    xapian-tools \
     && rm -rf /var/lib/apt/lists/*
 
 # Construir el índice de Xapian para evitar el mensaje
@@ -25,7 +25,7 @@ RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC
 
 # Configurar VNC
 RUN mkdir ~/.vnc
-RUN echo "password" | vncpasswd -f > ~/.vnc/passwd
+RUN echo "1234" | vncpasswd -f > ~/.vnc/passwd
 RUN chmod 600 ~/.vnc/passwd
 
 # Exponer puertos

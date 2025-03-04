@@ -7,7 +7,7 @@ ENV TZ=UTC
 
 # Instalar dependencias (LXDE en lugar de Lubuntu)
 RUN apt-get update && apt-get install -y \
-    lxde-core \
+    lxde-core \  # Instala solo el núcleo de LXDE
     tightvncserver \
     websockify \
     git \
@@ -16,16 +16,12 @@ RUN apt-get update && apt-get install -y \
     xapian-tools > /dev/null 2>&1 && \
     rm -rf /var/lib/apt/lists/*
 
-# Construir el índice de Xapian para evitar el mensaje
-RUN mkdir -p /var/cache/apt/xapian && \
-    update-apt-xapian-index > /dev/null 2>&1
-
 # Clonar noVNC
 RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC > /dev/null 2>&1
 
 # Configurar VNC
 RUN mkdir ~/.vnc && \
-    echo "password" | vncpasswd -f > ~/.vnc/passwd && \
+    echo "1234" | vncpasswd -f > ~/.vnc/passwd && \
     chmod 600 ~/.vnc/passwd
 
 # Configurar LXDE como entorno de escritorio para VNC

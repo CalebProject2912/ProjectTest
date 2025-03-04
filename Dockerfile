@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
     xapian-tools \
     language-pack-es language-pack-es-base \
     apt-transport-https curl \
-    chromium-browser \
+    firefox \
     autocutsel > /dev/null 2>&1 && \
     rm -rf /var/lib/apt/lists/*
 

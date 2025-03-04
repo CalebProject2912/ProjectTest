@@ -7,7 +7,7 @@ ENV TZ=UTC
 
 # Instalar dependencias (LXDE en lugar de Lubuntu)
 RUN apt-get update && apt-get install -y \
-    lxde-core \  # Instala solo el núcleo de LXDE
+    lxde-core \
     tightvncserver \
     websockify \
     git \
